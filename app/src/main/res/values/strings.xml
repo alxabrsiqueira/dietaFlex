@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">Dieta Flex</string>
+
+    <string name="txt_menu_configurar_metas">Configurar metas</string>
+    <string name="txt_menu_totais">Totais</string>
+    <string name="txt_menu_listar_refeicoes">Listar refeições</string>
+    <string name="txt_menu_adicionar_refeicao">Adicionar refeição</string>
+    <string name="txt_menu_sobre_nos">Sobre nós</string>
+    <string name="txt_menu_fechar">Fechar app</string>
+    <string name="title_activity_metas">Configuração de Metas</string>
+    <string name="title_activity_listar_refeicoes">Alimentos Consumidos</string>
+    <string name="title_activity_sobre_nos">Sobre Nós</string>
     <string name="title_activity_totais">Totais</string>
+    <string name="title_activity_adicionar_alimento">Adicionar Alimento</string>
 </resources>

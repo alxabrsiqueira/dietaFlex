@@ -16,30 +16,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-public class TotaisActivity extends AppCompatActivity {
+import com.example.dietaflex.R;
+
+public class SobreNosActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_totais);
+        setContentView(R.layout.activity_sobre_nos);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getBaseContext(), AdicionarAlimentoActivity.class));
-            }
-        });
     }
 
-// AREA DO MENU DO TOPO
+
+    // AREA DO MENU DO TOPO
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_toolbar,menu);
 
-        MenuItem m1 = menu.findItem(R.id.menu_totais);
+        MenuItem m1 = menu.findItem(R.id.menu_sobre_nos);
         m1.setVisible(false);
 
         return super.onCreateOptionsMenu(menu);
@@ -84,5 +80,4 @@ public class TotaisActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 // FIM DO MENU DO TOPO
-
 }
