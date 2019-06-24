@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.dietaflex.recursos.Metas;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -32,6 +33,12 @@ public class TotaisActivity extends AppCompatActivity {
                 startActivity(new Intent(getBaseContext(), AdicionarAlimentoActivity.class));
             }
         });
+
+
+        Metas teste = new Metas(this);
+
+
+
     }
 
 // AREA DO MENU DO TOPO

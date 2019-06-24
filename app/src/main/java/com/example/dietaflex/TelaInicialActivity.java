@@ -23,7 +23,7 @@ public class TelaInicialActivity extends AppCompatActivity {
                 startActivity(new Intent(getBaseContext(), TotaisActivity.class));
                 finish();
             }
-        },3000);
+        },2000);
 
     }
 }
