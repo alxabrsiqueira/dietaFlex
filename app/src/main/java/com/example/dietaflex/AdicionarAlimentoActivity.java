@@ -42,9 +42,6 @@ public class AdicionarAlimentoActivity extends AppCompatActivity {
         //*********PARTE DO AUTO COMPLETE
 
 
-
-
-
         ArrayAdapter<Nutricional> adapter = new ArrayAdapter<Nutricional>(this,
                 android.R.layout.simple_dropdown_item_1line,  NutricionalBancoDados.listarAlimentos());
         AutoCompleteTextView actv = (AutoCompleteTextView)findViewById(R.id.campo_nome_alimento);

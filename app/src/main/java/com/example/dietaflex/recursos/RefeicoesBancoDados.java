@@ -4,7 +4,6 @@ package com.example.dietaflex.recursos;
 import android.content.Context;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
-import com.example.dietaflex.recursos.Refeicao;
 
 import java.util.ArrayList;
 import java.util.List;
