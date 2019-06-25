@@ -10,10 +10,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".AdicionarAlimentoActivity"
+            android:label="@string/title_activity_adicionar_alimento"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SobreNosActivity"
+            android:label="@string/title_activity_sobre_nos"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListarRefeicoesActivity"
+            android:label="@string/title_activity_listar_refeicoes"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MetasActivity"
+            android:label="@string/title_activity_metas"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".TotaisActivity"
             android:label="@string/title_activity_totais"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".TelaInicialActivity">
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TelaInicialActivity" android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

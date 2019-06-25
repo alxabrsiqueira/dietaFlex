@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/menu_totais"
+        android:title="@string/txt_menu_totais" />
+    <item
+        android:id="@+id/menu_listar_refeicoes"
+        android:title="@string/txt_menu_listar_refeicoes" />
+    <item
+        android:id="@+id/menu_configurar_metas"
+        android:title="@string/txt_menu_configurar_metas" />
+    <item
+        android:id="@+id/menu_adicionar_refeicao"
+        android:title="@string/txt_menu_adicionar_refeicao" />
+    <item
+        android:id="@+id/menu_sobre_nos"
+        android:title="@string/txt_menu_sobre_nos" />
+    <item
+        android:id="@+id/menu_fechar"
+        android:title="@string/txt_menu_fechar" />
+</menu>
