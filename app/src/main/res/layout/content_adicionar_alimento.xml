@@ -8,54 +8,58 @@
     tools:context=".AdicionarAlimentoActivity"
     tools:showIn="@layout/activity_adicionar_alimento">
 
-    <Button
-        android:id="@+id/apagar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Limpar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:orientation="vertical"
+        android:id="@+id/linear_Layout">
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="142dp" />
+        <AutoCompleteTextView
+            android:id="@+id/campo_nome_alimento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="@string/txt_digite_nome_alimento"
+            android:inputType="text"
+            android:singleLine="true" />
 
-    <Button
-        android:id="@+id/gravar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="GRAVAR"
-        app:layout_constraintEnd_toStartOf="@+id/apagar"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/recuperar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Recuperar"
-        app:layout_constraintStart_toEndOf="@+id/apagar"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+            <EditText
+                android:id="@+id/campo_quantidade"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:ems="10"
+                android:hint="@string/text_quantidade"
+                android:inputType="number"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/txt_gramas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/txt_gramas" />
+
+            <Button
+                android:id="@+id/botao_salvar"
+                android:layout_width="wrap_content"
+                android:layout_height="63dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:text="@string/txt_botao_salvar"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

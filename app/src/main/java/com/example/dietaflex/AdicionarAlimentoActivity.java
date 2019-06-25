@@ -4,10 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.dietaflex.recursos.Metas;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,11 +12,25 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
+
+import com.example.dietaflex.recursos.Nutricional;
+import com.example.dietaflex.recursos.NutricionalBancoDados;
+import com.example.dietaflex.recursos.Refeicao;
+import com.example.dietaflex.recursos.RefeicoesBancoDados;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdicionarAlimentoActivity extends AppCompatActivity {
+    String[] Countries = { "India", "USA", "Australia", "UK", "Italy", "Ireland", "Abfrica" , "UuSA", "Ausstralia", "UfK", "Iytaly", "Isreland", "Asfrica" };
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,38 +38,41 @@ public class AdicionarAlimentoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_adicionar_alimento);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-    //*********
 
-        final Metas metas = new Metas(getBaseContext());
-        final EditText nome = (EditText) findViewById(R.id.editText);
-        Button gravar = (Button) findViewById(R.id.gravar);
-        gravar.setOnClickListener(new View.OnClickListener() {
+        //*********PARTE DO AUTO COMPLETE
 
-            @Override
-            public void onClick(View view) {
-                try{
-                    metas.setProteinas(Float.parseFloat(nome.getText().toString()));
-                }
-                catch (Exception e){
-                    metas.alertaDeExcecao(e);
-                }
-            }
+
+
+
+
+        ArrayAdapter<Nutricional> adapter = new ArrayAdapter<Nutricional>(this,
+                android.R.layout.simple_dropdown_item_1line,  NutricionalBancoDados.listarAlimentos());
+        AutoCompleteTextView actv = (AutoCompleteTextView)findViewById(R.id.campo_nome_alimento);
+        actv.setThreshold(1);
+        actv.setAdapter(adapter);
+        actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Nutricional selected = (Nutricional) parent.getAdapter().getItem(position);
+            Toast.makeText(getBaseContext(),
+                    "Codigo: " + selected.codigo+ " - Nome: " + selected.nome,
+                    Toast.LENGTH_SHORT).show();
+        }
         });
 
-        Button limpar = (Button) findViewById(R.id.apagar);
-        limpar.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+    /*    actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-              nome.setText("");
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "Selected Item: " + parent.getSelectedItem(), Toast.LENGTH_SHORT).show();
             }
-        });
-        Button recuperar = (Button) findViewById(R.id.recuperar);
-        recuperar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nome.setText(String.valueOf(metas.getProteinas()));
-            }
-        });
+        });*/
+
+        //para pegar valor do campo
+        //String input = actv.getText().toString();
 
     }
 

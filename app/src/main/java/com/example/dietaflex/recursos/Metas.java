@@ -1,12 +1,12 @@
 package com.example.dietaflex.recursos;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.icu.util.Calendar;
 import android.widget.Toast;
 
 /*
-    public Metas(Context context)   *obs: contexto podem usar: getBaseContext()  se tiver dentro de uma activity
+    public Metas(Context context)   *obs: contexto podem usar: getBaseContext()  se tiver dentro de uma activity ou "this"
 
     public  float getProteinas()
 
@@ -35,7 +35,7 @@ import android.widget.Toast;
   */
 
 
-public final class Metas {
+public final class Metas  {
     private static final int energiaDefault = 2000 ;
     private static final float proteinasDefault= 75;
     private static final float carboidratosDefault= 300 ;
@@ -46,9 +46,9 @@ public final class Metas {
     private  SharedPreferences.Editor metas;
     private Context contexto;
 
-    public Metas(Context context){
+    public  Metas(Context context){
         contexto = context;
-        config = context.getSharedPreferences("configDietaFlex", Context.MODE_PRIVATE);
+        config = contexto.getSharedPreferences("configDietaFlex", Context.MODE_PRIVATE);
         metas = config.edit();
     }
 
@@ -143,6 +143,18 @@ public final class Metas {
 
 }
 /*
+Activity.getApplicationContext(): Retorna o contexto do aplicativo inteiro (o processo dentro do qual todas as Activities estão sendo executadas). Use este no lugar do contexto da Activity ativa no momento se você estiver precisando de um contexto vinculado ao ciclo de vida do aplicativo inteiro.
+
+ContextWrapper.getBaseContext(): É um método da classe ContextWrapper. E ContextWrapper é "uma implementação proxy de Context que simplesmente delega todas as suas chamadas para um outro Context. Pode ser estendida para modificar comportamentos sem alterar o Context original."
+
+Fragment.getActivity(): Retorna a Activity à qual está anexado este fragmento. Um fragmento não possui Context por si só; porém, quando se encontra ligado (attached ou added) a uma Activity tem acesso ao contexto dessa Activity, ou então se guarda uma instância de Application tem acesso a essa instância mesmo estando desligado da Activity.
+
+
+
+
+
+
+
 
     public static float getProteinas(Context context) {
         SharedPreferences config = context.getSharedPreferences("configDietaFlex", Context.MODE_PRIVATE);

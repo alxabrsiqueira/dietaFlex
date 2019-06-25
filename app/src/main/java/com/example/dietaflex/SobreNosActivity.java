@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.dietaflex.recursos.Metas;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -15,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.dietaflex.R;
 
@@ -27,6 +30,38 @@ public class SobreNosActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+//**************
+        final Metas metas = new Metas(this);//new Metas(getBaseContext());
+        final EditText nome = (EditText) findViewById(R.id.editText);
+        Button gravar = (Button) findViewById(R.id.gravar);
+        gravar.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                try{
+                    metas.setProteinas(Float.parseFloat(nome.getText().toString()));
+                }
+                catch (Exception e){
+                    metas.alertaDeExcecao(e);
+                }
+            }
+        });
+
+        Button limpar = (Button) findViewById(R.id.apagar);
+        limpar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nome.setText("");
+            }
+        });
+        Button recuperar = (Button) findViewById(R.id.recuperar);
+        recuperar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nome.setText(String.valueOf(metas.getProteinas()));
+            }
+        });
+        //***********
     }
 
 

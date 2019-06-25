@@ -12,4 +12,8 @@
     <string name="title_activity_sobre_nos">Sobre Nós</string>
     <string name="title_activity_totais">Totais</string>
     <string name="title_activity_adicionar_alimento">Adicionar Alimento</string>
+    <string name="txt_botao_salvar">Salvar</string>
+    <string name="txt_gramas" >gramas</string>
+    <string name="txt_digite_nome_alimento">Digite o nome do alimento</string>
+    <string name="text_quantidade">Quantidade</string>
 </resources>

@@ -35,7 +35,7 @@ public class TotaisActivity extends AppCompatActivity {
         });
 
 
-        Metas teste = new Metas(this);
+
 
 
 
