@@ -1,0 +1,10 @@
+package com.example.agoravai.dominio.entidades;
+
+public class Refeicao {
+
+    public int id;
+    public int grupo;
+    public double quantidade;
+
+
+}
