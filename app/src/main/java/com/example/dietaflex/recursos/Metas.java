@@ -2,8 +2,11 @@ package com.example.dietaflex.recursos;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /*
     public Metas(Context context)   *obs: contexto podem usar: getBaseContext()  se tiver dentro de uma activity ou "this"
@@ -44,10 +47,10 @@ public final class Metas  {
     private static final String resetDefault= "00:00" ;
     private  SharedPreferences config;
     private  SharedPreferences.Editor metas;
-    private Context contexto;
+    private  Context contexto ;
 
     public  Metas(Context context){
-        contexto = context;
+      contexto =  context;
         config = contexto.getSharedPreferences("configDietaFlex", Context.MODE_PRIVATE);
         metas = config.edit();
     }
@@ -55,6 +58,7 @@ public final class Metas  {
     public void alertaDeExcecao(Exception e){
         Toast.makeText(contexto,"Erro ao salvar dado",Toast.LENGTH_LONG).show();
     }
+
 
     public  float getProteinas() {
         return config.getFloat("proteinas",proteinasDefault);

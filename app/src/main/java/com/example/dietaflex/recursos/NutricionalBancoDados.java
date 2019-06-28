@@ -96,7 +96,7 @@ public class NutricionalBancoDados {
             ,7.3f
             ,2.5f
             ,7.2f
-            ,2.6f
+            ,20.6f
             ,7.2f
             ,13.9f
             ,8.1f

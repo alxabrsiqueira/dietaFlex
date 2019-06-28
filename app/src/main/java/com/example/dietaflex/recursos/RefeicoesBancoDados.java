@@ -14,23 +14,26 @@ private Context contexto;
         this.contexto = contexto;
     }
 
-    public void adicionarRefeicao(Refeicao alimento) {
+    public static void adicionarRefeicao(Refeicao alimento) {
         //adciona ao BD a partir do objeto.
     }
-
-    public void removerRefeicao(int id) {
+    public static void editarRefeicao(Refeicao alimento) {
+        //deleta do BD a partir do id.
+    }
+    public static void removerRefeicao(int id) {
         //deleta do BD a partir do id.
     }
 
-    public  List <Refeicao> listarRefeicoes(){
+    public static List <Refeicao> listarRefeicoes(){
 
         List <Refeicao> alimentos = new ArrayList <Refeicao>();
 
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < 15; i++) {
            Refeicao aaaa = new Refeicao();
-            aaaa.codigo = 6;
+           aaaa.id = i;
+            aaaa.codigo = i+1;
             aaaa.datahorario = "2019-06-23 20:10:00";
-            aaaa.quantidade = 500;
+            aaaa.quantidade = (float)10+(i*2.1f);
             alimentos.add(aaaa);
         }
 

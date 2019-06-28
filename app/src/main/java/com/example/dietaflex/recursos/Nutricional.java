@@ -10,6 +10,7 @@ public class Nutricional {
     public float carboidratos;
     public float gorduras;
     public float fibras;
+    public float quantidade;
 
     @Override
     public String toString() {

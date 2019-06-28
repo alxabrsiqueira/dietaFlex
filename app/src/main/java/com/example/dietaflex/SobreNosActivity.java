@@ -30,7 +30,16 @@ public class SobreNosActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//**************
+        //*********BOTAO SAIR
+        Button botaoSair = findViewById(R.id.botao_sair2);
+        botaoSair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+/*
         final Metas metas = new Metas(this);//new Metas(getBaseContext());
         final EditText nome = (EditText) findViewById(R.id.editText);
         Button gravar = (Button) findViewById(R.id.gravar);
@@ -61,7 +70,7 @@ public class SobreNosActivity extends AppCompatActivity {
                 nome.setText(String.valueOf(metas.getProteinas()));
             }
         });
-        //***********
+       */
     }
 
 

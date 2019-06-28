@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.dietaflex.recursos.MenuDoTopo;
+import com.example.dietaflex.recursos.Nutricional;
+import com.example.dietaflex.recursos.Totalizacao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -16,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class MetasActivity extends AppCompatActivity {
 
@@ -26,6 +29,24 @@ public class MetasActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Nutricional teste = Totalizacao.macrosGeral();
+
+        TextView aaaa = (TextView) findViewById(R.id.textView2);
+
+        String  qnt =  String.valueOf((int)teste.quantidade);
+        String  pro =   String.valueOf((int)teste.proteinas);
+        String  car =   String.valueOf((int)teste.carboidratos);
+        String  gor =   String.valueOf((int)teste.gorduras);
+        String  fib =   String.valueOf((int)teste.fibras);
+        String  ene =  String.valueOf(teste.energia);
+
+        String texto = ene+" kcal | P: "+pro+" g | C: "+car+" g | G: "+gor+" g | F: "+fib+" g ! Q: "+qnt  ;
+
+
+        aaaa.setText(texto);
+
+        new AlertDialog.Builder(this).setTitle("Deletando curso").
+                setMessage("Tem certeza que deseja deletar esse curso?").show();
     }
 
 

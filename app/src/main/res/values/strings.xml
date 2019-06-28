@@ -16,4 +16,12 @@
     <string name="txt_gramas" >gramas</string>
     <string name="txt_digite_nome_alimento">Digite o nome do alimento</string>
     <string name="text_quantidade">Quantidade</string>
+    <string name="txt_botao_sair">Sair</string>
+    <string name="msg_alimento_nao_especificado">Alimento não especificado.</string>
+    <string name="msg_alimento_nao_consta">Alimento não consta no banco de dados.</string>
+    <string name="msg_quatidade_nao_especificada">Quantidade não especificada.</string>
+    <string name="txt_salvo_com_sucesso">Salvo com sucesso!</string>
+    <string name="alerta_erro_ao_salvar">ERRO AO SALVAR.   Tente novamente.</string>
+    <string name="texto_sobre"> Projeto realizado como requisito parcial para a avaliação na disciplina de Algoritmos e Programação 2 do curso de Engenharia Elétrica da Universidade Federal de Goiás.</string>
+    <string name="texto_nomes" >ALEX ABRAÃO SIQUEIRA\nVITOR MONTERO ARAUJO\nGUSTAVO SILVA AGUIAR\nARTHUR CUSTÓDIO DE OLIVEIRA  </string>
 </resources>

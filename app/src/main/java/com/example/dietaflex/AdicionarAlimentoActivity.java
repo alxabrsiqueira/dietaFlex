@@ -1,13 +1,17 @@
 package com.example.dietaflex;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +19,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.dietaflex.recursos.Nutricional;
@@ -26,25 +32,105 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdicionarAlimentoActivity extends AppCompatActivity {
-    String[] Countries = { "India", "USA", "Australia", "UK", "Italy", "Ireland", "Abfrica" , "UuSA", "Ausstralia", "UfK", "Iytaly", "Isreland", "Asfrica" };
 
 
+    private EditText  campoQuantidade ;
+    private AutoCompleteTextView campoNomeAlimento;
+    private int id ;
+    private float quantidade ;
+    private int codigo;
+    private boolean eEditar; // true se for para editar, false se nova inclusão
+    private String nome;
+    private String txtQuantidade;
+    private String txtAlimento;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_adicionar_alimento);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        verificaParametro(); // verififica se é para editar
+        verificarNutrientes(); // chama thread que verifica os dados micronutrientes
+
+        campoQuantidade = (EditText) findViewById(R.id.campo_quantidade);
+        campoNomeAlimento = (AutoCompleteTextView) findViewById(R.id.campo_nome_alimento);
+
+
+
+        //****** MODO EDITAR
+        if(eEditar){
+            campoQuantidade.setText(String.valueOf(quantidade));
+            campoNomeAlimento.setText(nome);
+
+            // chamar um botao de excluir
+        }
+        //*********BOTAO SAIR
+        Button botaoSair = findViewById(R.id.botao_sair);
+        botaoSair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        //*********BOTAO SALVAR
+        Button botaoSalvar = findViewById(R.id.botao_salvar);
+
+        botaoSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(validaCampos()){
+                    try {
+                        Calendar datahorarioAgora = Calendar.getInstance();
+                        SimpleDateFormat dataFormatada = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Refeicao objeto = new Refeicao();
+
+                        objeto.grupo = 1;
+                        objeto.quantidade = Float.parseFloat(campoQuantidade.getText().toString());;
+                        objeto.datahorario = dataFormatada.format(datahorarioAgora.getTime());
+                        objeto.codigo = codigo;
+                        objeto.id = id;
+
+                        if(eEditar){
+
+                            RefeicoesBancoDados.editarRefeicao(objeto); // EDITA O BD
+
+                            Toast.makeText(getBaseContext(),  "Codigo: "+objeto.codigo, Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(getBaseContext(),  "\n ID: "+objeto.id, Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(getBaseContext(),  "\n Quantidade: "+objeto.quantidade, Toast.LENGTH_SHORT).show();
+
+                           startActivity(new Intent(getBaseContext(), ListarRefeicoesActivity.class));
+                        }
+                        else {
+
+                         RefeicoesBancoDados.adicionarRefeicao(objeto); // SALVA NOVO ITEM
+
+                            Toast.makeText(getBaseContext(),  R.string.txt_salvo_com_sucesso, Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getBaseContext(), ListarRefeicoesActivity.class));
+                        }
+                    }
+                    catch (Exception e){
+
+                        Toast.makeText(getBaseContext(),  R.string.alerta_erro_ao_salvar, Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(getBaseContext(), ListarRefeicoesActivity.class));
+
+                    }
+                }
+            }
+        });
+        //----------fim BOTAO SALVAR
 
         //*********PARTE DO AUTO COMPLETE
 
-
         ArrayAdapter<Nutricional> adapter = new ArrayAdapter<Nutricional>(this,
                 android.R.layout.simple_dropdown_item_1line,  NutricionalBancoDados.listarAlimentos());
-        AutoCompleteTextView actv = (AutoCompleteTextView)findViewById(R.id.campo_nome_alimento);
+        AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.campo_nome_alimento);
         actv.setThreshold(1);
         actv.setAdapter(adapter);
         actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -56,27 +142,28 @@ public class AdicionarAlimentoActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
         });
-
-
-
-
-
-    /*    actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Selected Item: " + parent.getSelectedItem(), Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-        //para pegar valor do campo
-        //String input = actv.getText().toString();
-
+        //-----------fim auto complete
     }
+ //*******FUnçÃO EDITAR
+        private void verificaParametro(){
+            Bundle bundle= getIntent().getExtras();
+            if ((bundle != null) && (bundle.containsKey("REFEICAO"))){
+                Refeicao refeicao = (Refeicao) bundle.getSerializable("REFEICAO");
+                this.id = refeicao.id ;
+                this.codigo = refeicao.codigo ;
+                this.quantidade = refeicao.quantidade ;
+                eEditar=true;
+                for (Nutricional temp : NutricionalBancoDados.listarAlimentos()) {
+                    if (temp.codigo == this.codigo) {
+                        this.nome = temp.nome;
+                        break;
+                    }
+                }
+            }
+        }
+ //-------fim funcao editar
 
-
-
-
-    // AREA DO MENU DO TOPO
+    //******* AREA DO MENU DO TOPO
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_toolbar,menu);
@@ -125,5 +212,89 @@ public class AdicionarAlimentoActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-// FIM DO MENU DO TOPO
+// -------- FIM DO MENU DO TOPO
+
+
+    //******* ATUALIZA MACRO NUTRIENTES
+    private void verificarNutrientes(){
+
+        Thread thread = new Thread() {
+
+            @Override
+            public void run() {
+                String nomeCampo = campoNomeAlimento.getText().toString();
+                if(!nomeCampo.equals(nome))   {
+                    nome = nomeCampo;
+                    for (Nutricional temp : NutricionalBancoDados.listarAlimentos() ) {
+                        if (temp.nome.equals(txtAlimento)) {
+                            codigo = temp.codigo;
+                            nome = temp.nome;
+                            //colocar atualizacao dos nutrientes
+
+                        }
+                    }
+                }
+            }
+        };
+        thread.start();
+    }
+
+    //------fim de verificar todos atributos
+
+//*********METODOS AXILIARES da aç]ao salvar
+    private boolean verificarCamposVazios(String valor){
+            boolean resultado = (TextUtils.isEmpty(valor) || valor.trim().isEmpty());
+            return resultado; // retorna verdadeiro se tiver vazio
+    }
+    private boolean verificarCodigo(String valor){//retorna false se não houver na BD
+        if (!verificarCamposVazios(valor)) {
+            for(Nutricional temp : NutricionalBancoDados.listarAlimentos()) {
+                if(temp.nome.equals(valor)) {
+                    codigo= temp.codigo;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean validaCampos() {
+
+        boolean flag = false;
+         txtQuantidade = campoQuantidade.getText().toString();
+         txtAlimento = campoNomeAlimento.getText().toString();
+        String mensagem = "";
+
+
+        if (flag = verificarCamposVazios(txtAlimento)) {
+            campoNomeAlimento.requestFocus();
+            mensagem = getString(R.string.msg_alimento_nao_especificado);
+        }
+        else
+        if(!verificarCodigo(txtAlimento)){
+            flag =true;
+            campoNomeAlimento.requestFocus();
+            mensagem = getString(R.string.msg_alimento_nao_consta);
+        }
+        else
+        if (flag = verificarCamposVazios(txtQuantidade)){
+            campoQuantidade.requestFocus();
+            mensagem = getString(R.string.msg_quatidade_nao_especificada);
+        }
+
+        if(flag){
+            AlertDialog.Builder janela = new AlertDialog.Builder(this);
+            janela.setMessage(mensagem);
+            janela.setNegativeButton("Ok", null);
+            janela.show();
+            return false;
+        }
+        else
+            return true;
+
+    }
+    //--------fim dos metodos axiliares
 }
+
+
+
+
