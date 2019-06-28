@@ -1,0 +1,126 @@
+package com.example.agoravai.dominio.repositorio;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.example.agoravai.dominio.entidades.Refeicao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class RefeicaoRepositorio {
+
+    private SQLiteDatabase conexao;
+
+    public RefeicaoRepositorio(SQLiteDatabase conexao){
+        this.conexao = conexao;
+    }
+
+    public void inserir(Refeicao refeicao){
+
+        //recebe os valores que serao enviados para a base
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("GRUPO", refeicao.grupo);
+        contentValues.put("QUANTIDADE" , refeicao.quantidade);
+
+        conexao.insertOrThrow("REFEICAO", null, contentValues);
+
+    }
+
+
+    public void excluir(int id){
+
+        String[] parametros = new String[1];
+        parametros[0] = String.valueOf(id);
+
+        conexao.delete("REFEICAO","ID = ? ", parametros);
+
+    }
+
+
+    public void alterar(Refeicao refeicao){
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("GRUPO", refeicao.grupo);
+        contentValues.put("QUANTIDADE" , refeicao.quantidade);
+
+        String[] parametros = new String[1];
+        parametros[0] = String.valueOf(refeicao.id);
+
+        conexao.update("REFEICAO", contentValues, "ID = ? ", parametros);
+
+    }
+
+
+    public List<Refeicao> buscarTodos(){
+
+        List<Refeicao> refeicoes = new ArrayList<Refeicao>();
+
+        //para montar consulta SQL
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT ID, GRUPO, QUANTIDADE ");
+        sql.append("   FROM REFEICAO  ");
+
+        //retorna objeto tipo cursor
+        Cursor resultado = conexao.rawQuery(sql.toString(), null);
+
+        if (resultado.getCount() > 0){
+
+            //percorrer o resgistro do inicio ao fim
+            resultado.moveToFirst();
+
+            do{
+                Refeicao ref = new Refeicao();
+
+                //PARA RETORNAR OS DADOS DA BASE
+                ref.id         = resultado.getInt( resultado.getColumnIndexOrThrow("ID") );
+                ref.grupo      = resultado.getInt( resultado.getColumnIndexOrThrow("GRUPO") );
+                ref.quantidade = resultado.getDouble( resultado.getColumnIndexOrThrow("QUANTIDADE") );
+
+                refeicoes.add(ref);
+
+            }while(resultado.moveToNext());
+
+        }
+
+
+        return refeicoes;
+    }
+
+
+    public Refeicao buscarRefeicao (int id){
+
+        Refeicao refeicao = new Refeicao();
+
+        //para montar consulta SQL
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT ID, GRUPO, QUANTIDADE ");
+        sql.append("   FROM REFEICAO  ");
+        //DEFINE QUAL É O LOCAL DA BUSCA POSSO USAR UM AND E COLOCAR OUTRA VARIAVEL
+        sql.append("   WHERE ID = ?   ");
+
+        String[] parametros = new String[1];
+        parametros[0] = String.valueOf(id);
+
+        //retorna objeto tipo cursor
+        Cursor resultado = conexao.rawQuery(sql.toString(),parametros);
+
+
+        if (resultado.getCount() > 0){
+
+            //percorrer o resgistro do inicio ao fim
+            resultado.moveToFirst();
+
+            //PARA RETORNAR OS DADOS DA BASE
+            refeicao.id         = resultado.getInt( resultado.getColumnIndexOrThrow("ID") );
+            refeicao.grupo      = resultado.getInt( resultado.getColumnIndexOrThrow("GRUPO") );
+            refeicao.quantidade = resultado.getDouble( resultado.getColumnIndexOrThrow("QUANTIDADE") );
+
+            return refeicao;
+        }
+
+        //ver
+        return null;
+    }
+}
