@@ -1,0 +1,71 @@
+public class Nutrientes {
+
+    public int codigo;
+    public String alimento;
+    public double energia;
+    public double proteina;
+    public double gordura;
+    public double carboidrato;
+    public double fibra;
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getAlimento() {
+        return alimento;
+    }
+
+    public void setAlimento(String alimento) {
+        this.alimento = alimento;
+    }
+
+    public double getEnergia() {
+        return energia;
+    }
+
+    public void setEnergia(double energia) {
+        this.energia = energia;
+    }
+
+    public double getProteina() {
+        return proteina;
+    }
+
+    public void setProteina(double proteina) {
+        this.proteina = proteina;
+    }
+
+    public double getGordura() {
+        return gordura;
+    }
+
+    public void setGordura(double gordura) {
+        this.gordura = gordura;
+    }
+
+    public double getCarboidrato() {
+        return carboidrato;
+    }
+
+    public void setCarboidrato(double carboidrato) {
+        this.carboidrato = carboidrato;
+    }
+
+    public double getFibra() {
+        return fibra;
+    }
+
+    public void setFibra(double fibra) {
+        this.fibra = fibra;
+    }
+
+    @Override
+    public String toString(){
+        return alimento;
+    }
+}
