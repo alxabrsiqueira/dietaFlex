@@ -1,0 +1,121 @@
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.agoravai.dbImport.Nutrientes;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BancoImport extends SQLiteOpenHelper {
+
+    public static final String NOMEDB = "nut";
+    public static final String LOCALDB = "/data/data/com.example.agoravai/databases/";
+    public static final int VERSAO = 1;
+    private Context mContext;
+    private SQLiteDatabase connection;
+
+
+    public BancoImport(Context context) {
+        super(context, NOMEDB, null, VERSAO);
+    }
+
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+    }
+
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+    }
+
+
+    public void openDataBase(){
+
+        String dbPath = mContext.getDatabasePath(NOMEDB).getPath();
+        if( connection != null && connection.isOpen()){
+
+            return;
+        }
+        connection = SQLiteDatabase.openDatabase(dbPath,null,SQLiteDatabase.OPEN_READWRITE);
+
+    }
+
+    public void closeDataBase(){
+
+        if(connection != null){
+
+            connection.close();
+
+        }
+
+    }
+
+    public List<Nutrientes> allAlimento(){
+
+        openDataBase();
+        connection = this.getWritableDatabase();
+        List<Nutrientes> listNutrientes = new ArrayList<Nutrientes>();
+        String sql = "SELECT * FROM nut ORDER BY alimento ASC";
+        Cursor cursor = connection.rawQuery(sql,null);
+
+        if ( cursor.getCount()>0 ){
+            if ( cursor.moveToFirst()){
+                do{
+                    Nutrientes a = new Nutrientes();
+                    a.setCodigo(cursor.getInt(0));
+                    a.setAlimento(cursor.getString(1));
+                    listNutrientes.add(a);
+
+                }while(cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        connection.close();
+
+        return listNutrientes;
+    }
+
+    public Nutrientes buscarNutrientes (int codigo){
+
+        Nutrientes nutrientes = new Nutrientes();
+
+        //para montar consulta SQL
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT CODIGO, ALIMENTO, ENERGIA, PROTEINA, GORDURA, CARBOIDRATO, FIBRA ");
+        sql.append("   FROM NUTRIENTES  ");
+        //DEFINE QUAL É O LOCAL DA BUSCA POSSO USAR UM AND E COLOCAR OUTRA VARIAVEL
+        sql.append("   WHERE CODIGO = ?   ");
+
+        String[] parametros = new String[1];
+        parametros[0] = String.valueOf(codigo);
+
+        //retorna objeto tipo cursor
+        Cursor resultado = connection.rawQuery(sql.toString(),parametros);
+
+
+        if (resultado.getCount() > 0){
+
+            //percorrer o resgistro do inicio ao fim
+            resultado.moveToFirst();
+
+            //PARA RETORNAR OS DADOS DA BASE
+            nutrientes.codigo      = resultado.getInt( resultado.getColumnIndexOrThrow("CODIGO") );
+            nutrientes.alimento    = resultado.getString( resultado.getColumnIndexOrThrow("ALIMENTO") );
+            nutrientes.energia = resultado.getDouble( resultado.getColumnIndexOrThrow("ENERGIA") );
+            nutrientes.proteina = resultado.getDouble( resultado.getColumnIndexOrThrow("PROTEINA") );
+            nutrientes.gordura = resultado.getDouble( resultado.getColumnIndexOrThrow("GORDURA") );
+            nutrientes.carboidrato = resultado.getDouble( resultado.getColumnIndexOrThrow("CARBOIDRATO") );
+            nutrientes.fibra = resultado.getDouble( resultado.getColumnIndexOrThrow("FIBRA") );
+
+            return nutrientes;
+        }
+
+
+        return null;
+    }
+}
