@@ -24,4 +24,7 @@
     <string name="alerta_erro_ao_salvar">ERRO AO SALVAR.   Tente novamente.</string>
     <string name="texto_sobre"> Projeto realizado como requisito parcial para a avaliação na disciplina de Algoritmos e Programação 2 do curso de Engenharia Elétrica da Universidade Federal de Goiás.</string>
     <string name="texto_nomes" >ALEX ABRAÃO SIQUEIRA\nVITOR MONTERO ARAUJO\nGUSTAVO SILVA AGUIAR\nARTHUR CUSTÓDIO DE OLIVEIRA  </string>
+    <string name="excluir">Excluir</string>
+    <string name="msg_nenhum_alimento_selecionado">Nenhum alimento selecionado.</string>
+    <string name="fibras">Fibras</string>
 </resources>

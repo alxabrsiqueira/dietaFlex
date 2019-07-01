@@ -1,16 +1,19 @@
 package com.example.dietaflex;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import com.example.dietaflex.banco_de_dados.NutricionalBancoDados;
 import com.example.dietaflex.recursos.ListaAdapter;
+import com.example.dietaflex.recursos.Metas;
 import com.example.dietaflex.recursos.Nutricional;
-import com.example.dietaflex.recursos.NutricionalBancoDados;
 import com.example.dietaflex.recursos.Refeicao;
-import com.example.dietaflex.recursos.RefeicoesBancoDados;
+import com.example.dietaflex.banco_de_dados.RefeicoesBancoDados;
+import com.example.dietaflex.recursos.Totalizacao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,14 +26,57 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 public class ListarRefeicoesActivity extends AppCompatActivity {
     private RecyclerView listaDadosView;
     private ConstraintLayout layoutLista;
     private ListaAdapter listaAdapter;
+
+    private ConstraintLayout   layoutEnergia ;
+    private TextView txtViewEnergiaTotal  ;
+    private TextView txtViewEnergiaMeta ;
+    private TextView txtViewEnergiaPercentagem  ;
+    private ProgressBar progressEnergia;
+
+    private ConstraintLayout   layoutProteinas ;
+    private TextView txtViewProteinasTotal  ;
+    private TextView txtViewProteinasMeta ;
+    private TextView txtViewProteinasPercentagem  ;
+    private ProgressBar progressProteinas;
+
+    private ConstraintLayout   layoutCarboidratos ;
+    private TextView txtViewCarboidratosTotal  ;
+    private TextView txtViewCarboidratosMeta ;
+    private TextView txtViewCarboidratosPercentagem  ;
+    private ProgressBar progressCarboidratos;
+
+    private ConstraintLayout   layoutGorduras;
+    private TextView txtViewGordurasTotal  ;
+    private TextView txtViewGordurasMeta ;
+    private TextView txtViewGordurasPercentagem  ;
+    private ProgressBar progressGorduras;
+
+    private ConstraintLayout   layoutFibras;
+    private TextView txtViewFibrasTotal  ;
+    private TextView txtViewFibrasMeta ;
+    private TextView txtViewFibrasPercentagem  ;
+    private ProgressBar progressFibras;
+
+
+    private int metaEnergia = 2000;
+    private float metaProteina = 100;
+    private float metaCarboidrato= 100;
+    private float metaGorduras= 100;
+    private float metaFibras= 50;
+
+    Totalizacao totalizacaoMacros;
+    Nutricional total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +93,49 @@ public class ListarRefeicoesActivity extends AppCompatActivity {
             }
         });
 
+        totalizacaoMacros = new Totalizacao(getBaseContext());
+        total = totalizacaoMacros.macrosGeral();
+
+        metaEnergia = Metas.getEnergia(getBaseContext()) ;
+        metaProteina = Metas.getProteinas(getBaseContext());
+        metaCarboidrato=Metas.getCarboidratos(getBaseContext());
+        metaGorduras=Metas.getGorduras(getBaseContext());
+        metaFibras=Metas.getFibras(getBaseContext());
+
+
+        txtViewEnergiaTotal = (TextView) findViewById(R.id.energia_total) ;
+        txtViewEnergiaMeta = (TextView) findViewById(R.id.energia_meta) ;
+        txtViewEnergiaPercentagem = (TextView) findViewById(R.id.energia_percentagem) ;
+        progressEnergia= (ProgressBar) findViewById(R.id.progressBarEnergia) ;
+        layoutEnergia = (ConstraintLayout) findViewById(R.id.layout_energia) ;
+
+        txtViewProteinasTotal = (TextView) findViewById(R.id.proteinas_total) ;
+        txtViewProteinasMeta = (TextView) findViewById(R.id.proteinas_meta) ;
+        txtViewProteinasPercentagem = (TextView) findViewById(R.id.proteinas_percentagem) ;
+        progressProteinas= (ProgressBar) findViewById(R.id.progressBarProteinas) ;
+        layoutProteinas = (ConstraintLayout) findViewById(R.id.layout_proteinas) ;
+
+        txtViewCarboidratosTotal= (TextView) findViewById(R.id.carboidratos_total) ;
+        txtViewCarboidratosMeta = (TextView) findViewById(R.id.carboidratos_meta) ;
+        txtViewCarboidratosPercentagem = (TextView) findViewById(R.id.carboidratos_percentagem) ;
+        progressCarboidratos= (ProgressBar) findViewById(R.id.progressBarCarboidratos) ;
+        layoutCarboidratos= (ConstraintLayout) findViewById(R.id.layout_carboidratos) ;
+
+        txtViewGordurasTotal= (TextView) findViewById(R.id.gorduras_total) ;
+        txtViewGordurasMeta = (TextView) findViewById(R.id.gorduras_meta) ;
+        txtViewGordurasPercentagem = (TextView) findViewById(R.id.gorduras_percentagem) ;
+        progressGorduras= (ProgressBar) findViewById(R.id.progressBarGorduras) ;
+        layoutGorduras =(ConstraintLayout) findViewById(R.id.layout_gorduras) ;
+
+        txtViewFibrasTotal= (TextView) findViewById(R.id.fibras_total) ;
+        txtViewFibrasMeta = (TextView) findViewById(R.id.fibras_meta) ;
+        txtViewFibrasPercentagem= (TextView) findViewById(R.id.fibras_percentagem) ;
+        progressFibras= (ProgressBar) findViewById(R.id.progressBarFibras) ;
+        layoutFibras= (ConstraintLayout) findViewById(R.id.layout_fibras) ;
+
+        atualizarPainelTotal(); // ATUALIZA O PAINEL
+
+
         //*********AREA DA LISTAGEM
 
         List <Refeicao> lista = RefeicoesBancoDados.listarRefeicoes();
@@ -59,7 +148,10 @@ public class ListarRefeicoesActivity extends AppCompatActivity {
         listaDadosView.setAdapter(listaAdapter);
 
         //-----Fim da area da listagem
-    }
+    }// FIM DO ONCREATED
+
+
+
     // AREA DO MENU DO TOPO
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -109,5 +201,93 @@ public class ListarRefeicoesActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-// FIM DO MENU DO TOPO
+    // FIM DO MENU DO TOPO
+// ********** ATUALIZAR O PAINEL DE MACROSNUTRIENTES GERAL
+    private void atualizarPainelTotal(){
+
+        // atualizacao da parte energia
+        int soma = total.energia;
+        txtViewEnergiaTotal.setText(String.valueOf(soma));
+        txtViewEnergiaMeta.setText(String.valueOf(metaEnergia));
+        String percentagem = (soma*100/metaEnergia)+"%";
+        txtViewEnergiaPercentagem.setText(percentagem);
+        progressEnergia.setMax(metaEnergia);
+        progressEnergia.setProgress(soma);
+
+        if(metaEnergia<=soma) {
+            layoutEnergia.setBackgroundColor(Color.parseColor(getString(R.color.destaque_alerta)));
+        }
+        else
+            layoutEnergia.setBackgroundColor(Color.parseColor(getString(R.color.fundomenosclaro)));
+
+        // atualizacao da parte proteinas
+        soma = (int)(total.proteinas);
+        int meta = Math.round(metaProteina);
+        txtViewProteinasTotal.setText(String.valueOf(soma));
+        txtViewProteinasMeta.setText(String.valueOf(meta));
+        percentagem = (soma*100/meta)+"%";
+        txtViewProteinasPercentagem.setText(percentagem);
+        progressProteinas.setMax(meta);
+        progressProteinas.setProgress(soma);
+
+        if(meta<=soma) {
+            layoutProteinas.setBackgroundColor(Color.parseColor(getString(R.color.destaque_alerta)));
+        }
+        else
+            layoutProteinas.setBackgroundColor(Color.parseColor(getString(R.color.fundomenosclaro)));
+
+
+        // atualizacao da parte carboidratos
+        soma = (int)(total.carboidratos);
+        meta = Math.round(metaCarboidrato);
+        txtViewCarboidratosTotal.setText(String.valueOf(soma));
+        txtViewCarboidratosMeta.setText(String.valueOf(meta));
+        percentagem = (soma*100/meta)+"%";
+        txtViewCarboidratosPercentagem.setText(percentagem);
+        progressCarboidratos.setMax(meta);
+        progressCarboidratos.setProgress(soma);
+
+        if(meta<=soma) {
+            layoutCarboidratos.setBackgroundColor(Color.parseColor(getString(R.color.destaque_alerta)));
+        }
+        else
+            layoutCarboidratos.setBackgroundColor(Color.parseColor(getString(R.color.fundomenosclaro)));
+
+        // atualizacao da parte gorduras
+        soma = (int)(total.gorduras);
+        meta = Math.round(metaGorduras);
+        txtViewGordurasTotal.setText(String.valueOf(soma));
+        txtViewGordurasMeta.setText(String.valueOf(meta));
+        percentagem = (soma*100/meta)+"%";
+        txtViewGordurasPercentagem.setText(percentagem);
+        progressGorduras.setMax(meta);
+        progressGorduras.setProgress(soma);
+
+        if(meta<=soma) {
+            layoutGorduras.setBackgroundColor(Color.parseColor(getString(R.color.destaque_alerta)));
+        }
+        else
+            layoutGorduras.setBackgroundColor(Color.parseColor(getString(R.color.fundomenosclaro)));
+
+        // atualizacao da parte fibras
+        soma = (int)(total.fibras);
+        meta = Math.round(metaFibras);
+        txtViewFibrasTotal.setText(String.valueOf(soma));
+        txtViewFibrasMeta.setText(String.valueOf(meta));
+        percentagem = (soma*100/meta)+"%";
+        txtViewFibrasPercentagem.setText(percentagem);
+        progressFibras.setMax(meta);
+        progressFibras.setProgress(soma);
+
+        if(meta<=soma) {
+            layoutFibras.setBackgroundColor(Color.parseColor(getString(R.color.destaque_alerta)));
+        }
+        else
+            layoutFibras.setBackgroundColor(Color.parseColor(getString(R.color.fundomenosclaro)));
+
+
+
+
+        //-----------fim da area do painel
+    }
 }

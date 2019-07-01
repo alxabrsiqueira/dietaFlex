@@ -2,13 +2,14 @@ package com.example.dietaflex;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.example.dietaflex.recursos.MenuDoTopo;
+
+import com.example.dietaflex.recursos.Metas;
 import com.example.dietaflex.recursos.Nutricional;
 import com.example.dietaflex.recursos.Totalizacao;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +18,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 public class MetasActivity extends AppCompatActivity {
@@ -29,7 +29,19 @@ public class MetasActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Nutricional teste = Totalizacao.macrosGeral();
+      //  Nutricional teste = Totalizacao.macrosGeral();
+
+        SharedPreferences preferences =getSharedPreferences("configDietaFlex",getBaseContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+
+      Metas.setPadrao(getBaseContext());
+
+
+
+
+/*
 
         TextView aaaa = (TextView) findViewById(R.id.textView2);
 
@@ -44,9 +56,9 @@ public class MetasActivity extends AppCompatActivity {
 
 
         aaaa.setText(texto);
-
-        new AlertDialog.Builder(this).setTitle("Deletando curso").
-                setMessage("Tem certeza que deseja deletar esse curso?").show();
+*/
+        new AlertDialog.Builder(this).setTitle("teste").
+                setMessage("tesssssssteee").show();
     }
 
 

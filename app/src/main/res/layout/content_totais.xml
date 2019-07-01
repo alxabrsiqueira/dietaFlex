@@ -2,11 +2,122 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout255"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".TotaisActivity"
     tools:showIn="@layout/activity_totais">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/progressssss"
+                style="?android:progressBarStyleHorizontal"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:progress="0"
+                android:progressDrawable="@drawable/circle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/energia_percentagem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="00%"
+                app:layout_constraintBottom_toBottomOf="@+id/progressBarEnergia"
+                app:layout_constraintEnd_toEndOf="@+id/progressBarEnergia"
+                app:layout_constraintStart_toStartOf="@+id/progressBarEnergia" />
+
+            <TextView
+                android:id="@+id/lbl_energia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:text="Energia"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@+id/progressBarEnergia"
+                app:layout_constraintHorizontal_bias="0.533"
+                app:layout_constraintStart_toStartOf="@+id/progressBarEnergia"
+                app:layout_constraintTop_toTopOf="@+id/progressBarEnergia" />
+
+            <TextView
+                android:id="@+id/energia_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="000"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/lbl_energia"
+                app:layout_constraintStart_toStartOf="@+id/lbl_energia"
+                app:layout_constraintTop_toBottomOf="@+id/energia_percentagem" />
+
+            <TextView
+                android:id="@+id/energia_meta"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:layout_marginTop="28dp"
+                android:text="0000"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/progressBarEnergia"
+                app:layout_constraintHorizontal_bias="0.562"
+                app:layout_constraintStart_toStartOf="@+id/progressBarEnergia"
+                app:layout_constraintTop_toTopOf="@+id/lbl_energia" />
+
+            <TextView
+                android:id="@+id/kcal"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginTop="40dp"
+                android:text="kcal"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@+id/energia_meta"
+                app:layout_constraintStart_toStartOf="@+id/energia_meta"
+                app:layout_constraintTop_toTopOf="@+id/lbl_energia" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/pBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="200dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:minWidth="200dp"
+            android:minHeight="50dp"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/tView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pBar"
+            android:layout_alignLeft="@+id/pBar" />
+
+        <Button
+            android:id="@+id/btnShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tView"
+            android:layout_marginLeft="130dp"
+            android:layout_marginTop="20dp"
+            android:text="Start Progress" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView"

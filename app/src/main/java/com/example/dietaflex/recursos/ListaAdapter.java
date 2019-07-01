@@ -20,8 +20,10 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolderLi
 
 
     private List<Refeicao> dados;
+    private Totalizacao totalizacao ;
 
     public ListaAdapter(List<Refeicao> dados){
+
         this.dados = dados;
     }
 
@@ -35,6 +37,9 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolderLi
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.listagem, parent, false);
 
+        totalizacao = new Totalizacao(parent.getContext());
+
+
         ViewHolderLista retorno = new ViewHolderLista(view, parent.getContext());
         return retorno;
     }
@@ -44,7 +49,7 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolderLi
 
         if((dados!=null)&&(dados.size()>0)) {
             Refeicao valor = dados.get(position);
-            Nutricional macros = Totalizacao.macrosIndividual(valor.codigo,valor.quantidade);
+            Nutricional macros = totalizacao.macrosIndividual(valor.codigo,valor.quantidade);
 
             String  qnt =  String.valueOf((int)valor.quantidade);
             String  pro =  truncar(macros.proteinas);
@@ -79,6 +84,8 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolderLi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+
 
                     if(dados.size() > 0){
                         Refeicao refeicao = dados.get(getLayoutPosition());

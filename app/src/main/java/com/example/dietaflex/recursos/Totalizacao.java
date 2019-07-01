@@ -1,8 +1,11 @@
 package com.example.dietaflex.recursos;
 
-import android.icu.text.DecimalFormat;
+import android.content.Context;
 
-import java.math.RoundingMode;
+import com.example.dietaflex.banco_de_dados.NutricionalBancoDados;
+import com.example.dietaflex.banco_de_dados.RefeicoesBancoDados;
+
+import java.util.List;
 
 public class Totalizacao {
 
@@ -12,17 +15,21 @@ public class Totalizacao {
     public String datahorario;
     public int codigo;
     private int energia;
-    private String nome ;
     private float proteinas;
     private float carboidratos;
     private float gorduras;
     private float fibras;
+    private String nome ;
+    private Context contexto;
+    private List<Nutricional> listaNutricionalAlimentos ;
 
-
-    public Totalizacao(){
-
-
+    public Totalizacao(Context contexto){
+        this.contexto = contexto;
+        NutricionalBancoDados nutricionalBancoDados = new NutricionalBancoDados(contexto);
+        listaNutricionalAlimentos = nutricionalBancoDados.listarAlimentos();
     }
+
+
 
     public static int proporcao(float quantidade, int valor){
 
@@ -41,11 +48,40 @@ public class Totalizacao {
 */
 
 //*********RETORNA UM OBJETO COM OS VALORES PROPORCIONAIS DE MACRONUTRIENTES
-    public  static Nutricional macrosIndividual(int codigo, float quantidade) {
+    public   Nutricional macrosIndividual(int codigo, float quantidade) {
         Nutricional retorno = new Nutricional();
-        for (Nutricional temp : NutricionalBancoDados.listarAlimentos() ) {
+
+        for (Nutricional temp : listaNutricionalAlimentos ) {
             if (codigo == temp.codigo) {
                 retorno.nome = temp.nome;
+                retorno.energia = proporcao(quantidade, temp.energia);
+                retorno.proteinas = proporcao(quantidade, temp.proteinas);
+                retorno.carboidratos = proporcao(quantidade, temp.carboidratos);
+                retorno.gorduras = proporcao(quantidade, temp.gorduras);
+                retorno.fibras = proporcao(quantidade, temp.fibras);
+                retorno.quantidade = quantidade;
+                retorno.codigo = codigo;
+                return retorno;
+            }
+        }
+        retorno.nome = "Item não encontrado";
+        retorno.energia = 0;
+        retorno.proteinas = 0;
+        retorno.carboidratos = 0;
+        retorno.gorduras = 0;
+        retorno.fibras = 0;
+        retorno.quantidade = 0;
+        return retorno;
+    }
+    //*********RETORNA UM OBJETO COM OS VALORES PROPORCIONAIS DE MACRONUTRIENTES
+    public   Nutricional macrosIndividual(String nome, float quantidade) {
+
+        Nutricional retorno = new Nutricional();
+
+        for (Nutricional temp : listaNutricionalAlimentos ) {
+            if (temp.nome.equals(nome)) {
+                retorno.nome = temp.nome;
+                retorno.codigo = temp.codigo;
                 retorno.energia = proporcao(quantidade, temp.energia);
                 retorno.proteinas = proporcao(quantidade, temp.proteinas);
                 retorno.carboidratos = proporcao(quantidade, temp.carboidratos);
@@ -62,10 +98,14 @@ public class Totalizacao {
         retorno.gorduras = 0;
         retorno.fibras = 0;
         retorno.quantidade = 0;
+        retorno.codigo = -1;
         return retorno;
     }
+
+
+
     //*********RETORNA UM OBJETO COM OS VALORES TOTAIS DE MACRONUTRIENTES
-    public  static Nutricional macrosGeral() {
+    public   Nutricional macrosGeral() {
         Nutricional retorno = new Nutricional();
         for (Refeicao temp : RefeicoesBancoDados.listarRefeicoes() ) {
 
